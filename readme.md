@@ -119,3 +119,8 @@ wsproto==1.2.0
 - Validator consensus required for block addition
 - Token system prevents abuse of training
 - Fault tolerance in validation system
+
+## AI acknowledgement
+
+- Only some documentation was written with Copilot.
+- Some images were generated with Gemini.
