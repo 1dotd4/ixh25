@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, send, emit, join_room, leave_room
+import json
 
 app = Flask(__name__,
             static_url_path='',
@@ -21,19 +22,36 @@ def index():
 def handle_join(username):
     users[request.sid] = username  # Store username by session ID
     join_room(username)  # Each user gets their own "room"
-    emit("message", f"{username} joined the chat", room=username)
+    resdata = { 'username': username,
+                'message': 'joined the chain'}
+    emit("message", json.dumps(resdata), room=username)
 
 # Handle user messages
 @socketio.on('message')
-def handle_message(data):
+def handle_message(message):
     username = users.get(request.sid, "Anonymous")  # Get the user's name
-    emit("message", f"{username}: {data}", broadcast=True)  # Send to everyone
+    data = json.loads(message)
+
+    resdata = { 'username': username,
+                'message': ''}
+    
+    if data['action'] == 'train':
+        resdata['message'] = "is training."
+    elif data['action'] == 'buy':
+        resdata['message'] = "bought a car."
+    elif data['action'] == 'race':
+        resdata['message'] = "joined the race."
+        
+    emit("message", json.dumps(resdata), broadcast=True)  # Send to everyone
 
 # Handle disconnects
 @socketio.on('disconnect')
 def handle_disconnect():
     username = users.pop(request.sid, "Anonymous")
-    emit("message", f"{username} left the chat", broadcast=True)
+    resdata = { 'username': username,
+                'message': 'left the chain'}
+    emit("message", json.dumps(resdata), broadcast=True)
+
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, host='0.0.0.0')
