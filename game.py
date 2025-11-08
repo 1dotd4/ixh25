@@ -25,6 +25,17 @@ class Race:
     def player_train(self, username: str):
         pid = self.player_names[username]
         player = self.players[pid]
+        car = player.car
+        print(f"Player {player.id} Car {car.id}")
+        # create flags exist for the car
+        self.god.create_flags(car)
+        print(f"Created flags: {self.god.flags[car.id]}")
+        # calculate speed 
+        speed = self.god.calculate_speed(car)
+        print(f"Calculated speed: {speed}")
+        # create and distribute shares to servers using the training vector
+        self.god.create_shares(car.id, self.servers)
+        print(f"Shares created and sent to servers for car {car.id}.")
         training_vectors = player.training_vector()
         print(f"Player {pid} training vector: {training_vectors}")
         server = random.choice(self.servers)
@@ -190,4 +201,4 @@ if __name__ == '__main__':
     sim.player_add("pippo")
     sim.player_add("pluto")
     sim.player_add("minnie")
-    # sim.simulate(10)
+    sim.simulate(10)
