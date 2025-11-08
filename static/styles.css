@@ -1,0 +1,40 @@
+p {
+    margin: 0;
+    margin-bottom: 0.3em;
+}
+
+h2 {
+    text-align: center;
+}
+
+body {
+    display: flex;
+    /* flex-direction: column; */
+    align-items: stretch;
+    align-content: center;
+    justify-content: center;
+}
+
+.content {
+    width: 90%;
+    max-width: 48em;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 1em;
+}
+
+#messages {
+    max-height: 50vh;
+    min-height: 24em;
+    padding: 0.3em 0.6em;
+    border-radius: 0.2em;
+    border: solid black 1px;
+    overflow: auto;
+}
+
+button {
+    padding: 1em 2em;
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flask WebSocket Chat</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+  <script>
+    var socket = io();
+    var username = prompt("Enter your name:");  // Ask for username
+    socket.emit("join", username);  // Notify server of new user
+
+    // Listen for messages from server
+    socket.on("message", function(data) {
+        var messages = document.getElementById("messages");
+        messages.innerHTML = `<p>${data}</p>` + messages.innerHTML;
+    });
+
+    // Function to send messages
+    function sendMessage(message) {
+        // var msgInput = document.getElementById("msg");
+        // var message = msgInput.value;
+        socket.send(message);
+        msgInput.value = "";
+    }
+    </script>
+</head>
+<body>
+  <div class="content">
+    <h2>Flask WebSocket Chat</h2>
+    <button onclick="sendMessage('buy')">Buy Car</button>
+    <button onclick="sendMessage('train')">Train</button>
+    <button onclick="sendMessage('race')">Race</button>
+    <div id="messages"></div>
+  </div>
+</body>
+</html>
