@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, send, emit, join_room, leave_room
 import json
+from game import Race
+
+race = Race(n_servers=5)
 
 app = Flask(__name__,
             static_url_path='',
@@ -36,11 +39,15 @@ def handle_message(message):
                 'message': ''}
     
     if data['action'] == 'train':
-        resdata['message'] = "is training."
+        resdata = race.player_train(username)
+        # resdata['message'] = "is training."
     elif data['action'] == 'buy':
-        resdata['message'] = "bought a car."
+        resdata = race.player_add(username)
+        # resdata['message'] = "bought a car."
+        # add_player(username)
     elif data['action'] == 'race':
-        resdata['message'] = "joined the race."
+        resdata = race.player_race(username)
+        # resdata['message'] = "joined the race."
         
     emit("message", json.dumps(resdata), broadcast=True)  # Send to everyone
 
