@@ -1,2 +1,3 @@
 dotenv/
 __pycache__/
+.env

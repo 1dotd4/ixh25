@@ -2,11 +2,11 @@ import random
 from god import God
 from player import Player
 from racechain import Racechain, Block
-from server import Server
+from gameserver import GameServer
 class Race:
     def __init__(self, n_players: int, n_servers: int):
         self.players = {i: Player(i) for i in range(n_players)}
-        self.servers = [Server(i) for i in range(n_servers)]
+        self.servers = [GameServer(i) for i in range(n_servers)]
         self.god = God()
         self.chain = Racechain()
 

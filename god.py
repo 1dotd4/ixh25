@@ -1,6 +1,6 @@
 import random
 from player import Car
-from server import Server
+from gameserver import GameServer
 
 class God:
     def __init__(self):

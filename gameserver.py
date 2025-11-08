@@ -1,7 +1,7 @@
 import random
 from player import Player
 
-class Server:
+class GameServer:
     def __init__(self, id: int):
         self.id = id
         self.shares: dict[int, list[int]] = {}
