@@ -17,7 +17,7 @@ class God:
         new_flags = [(f + b*delta) % 1001 for f,b in zip(self.flags[car.id], training_list)]
         self.flags[car.id] = new_flags
 
-    def create_shares(self, car_id: int, server_list: list[Server]) -> None:
+    def create_shares(self, car_id: int, server_list: list[GameServer]) -> None:
         shares = []
         for f,c in zip(self.flags[car_id], self.coeff):
             s = c * (f % 1001)

@@ -34,17 +34,26 @@ class Race:
             # create flags exist for the car
             self.god.create_flags(car)
             print(f"Created flags: {self.god.flags[car.id]}")
-            # calculate speed (for logging/consistency)
+            # calculate speed 
             speed = self.god.calculate_speed(car)
             print(f"Calculated speed: {speed}")
             # create and distribute shares to servers using the training vector
             self.god.create_shares(car.id, self.servers)
             print(f"Shares created and sent to servers for car {car.id}.")
             # training probability
-            if random.random() < 0.5:
-                training_vectors[pid] = player.training_vector()
-                self.god.update_flags(car, training_vectors[pid])
-                self.god.create_shares(car.id, self.servers)
+            while True:
+                if random.random() < 0.5:
+                    training_vectors[pid] = player.training_vector()
+                    print(f"Player {pid} training vector: {training_vectors[pid]}")
+                    server = random.choice(self.servers)
+                    server.handle_training_request(player)
+                    print(f"Player {pid} paid 1 token for training. Remaining tokens: {player.token}")
+                    self.god.update_flags(car, training_vectors[pid])
+                    print(f"Updated flags: {self.god.flags[car.id]}")
+                    self.god.create_shares(car.id, self.servers)
+                    print(f"Shares updated and sent to servers for car {car.id}.")
+                else:
+                    break
 
         # 3) Players reconstruct speeds by summing shares from servers
         speeds: dict[int, int] = {}

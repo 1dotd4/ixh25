@@ -6,17 +6,17 @@ class GameServer:
         self.id = id
         self.shares: dict[int, list[int]] = {}
 
-    def handle_training_request(self, user: Player, training_vector: list) -> bool:
-        if user.token < 1:
+    def handle_training_request(self, player: Player) -> bool:
+        if player.token < 1:
             # raise ValueError("Not enough tokens.")
             return False
         else:
-            if self.receive_payment():
-                user.token -= 1
+            if self.receive_payment(player):
+                player.token -= 1
                 return True
         
     def receive_payment(self, player: Player) -> bool:
-        pass
+        return True 
 
     def receive_shares(self, car_id: int, share: list[int]) -> None:
         self.shares[car_id] = share
